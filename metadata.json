@@ -1,0 +1,6 @@
+{
+  "name": "ລະບົບຈັດການເອກະສານທັນສະໄໝ ຫ້ອງວ່າການແຂວງຫົວພັນ",
+  "description": "Modern Document Management System of Houaphanh Provincial Office (e-Office DMS) featuring official tracking, task assignment, e-signature, and secure archives.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

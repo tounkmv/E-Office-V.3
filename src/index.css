@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* Official Lao Standard Font: Phetsarath OT (ຟ້ອນເພັດສະລາດໂອທີ ມາດຕະຖານລັດຖະບານ) */
+@font-face {
+  font-family: 'Phetsarath OT';
+  src: local('Phetsarath OT'), local('PhetsarathOT'), local('Phetsarath'),
+       url('https://fonts.gstatic.com/s/phetsarath/v17/A8IzOp_t1qX9sDgnXW6196N7.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Phetsarath OT';
+  src: local('Phetsarath OT Bold'), local('PhetsarathOT-Bold'), local('Phetsarath Bold'),
+       url('https://fonts.gstatic.com/s/phetsarath/v17/A8IzOp_t1qX9sDgnXW6196N7.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-phetsarath: 'Phetsarath OT', 'Phetsarath', 'Noto Sans Lao', 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* Ensure Phetsarath OT is strictly applied to all UI elements */
+html, body, button, input, select, textarea, table, th, td, h1, h2, h3, h4, h5, h6, span, p, a, label {
+  font-family: 'Phetsarath OT', 'Phetsarath', 'Noto Sans Lao', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* Custom glowing and pulsing effects */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.015); }
+}
+
+@keyframes ping-gentle {
+  0% { transform: scale(0.95); opacity: 0.9; }
+  50% { transform: scale(1.3); opacity: 0.4; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes glow-red {
+  0%, 100% { box-shadow: 0 0 15px -3px rgba(239, 68, 68, 0.4), 0 0 6px -2px rgba(239, 68, 68, 0.3); }
+  50% { box-shadow: 0 0 25px 2px rgba(239, 68, 68, 0.65), 0 0 10px 1px rgba(239, 68, 68, 0.4); }
+}
+
+@keyframes glow-amber {
+  0%, 100% { box-shadow: 0 0 14px -3px rgba(245, 158, 11, 0.35); }
+  50% { box-shadow: 0 0 22px 2px rgba(245, 158, 11, 0.6); }
+}
+
+@keyframes progress-drain {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-ping-gentle {
+  animation: ping-gentle 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-glow-red {
+  animation: glow-red 2s ease-in-out infinite;
+}
+
+.animate-glow-amber {
+  animation: glow-amber 2.2s ease-in-out infinite;
+}
+
+/* Glassmorphism modal backdrop and window surfaces */
+.modal-glass-backdrop {
+  background: radial-gradient(circle at 50% 25%, rgba(15, 23, 42, 0.75) 0%, rgba(2, 6, 23, 0.88) 100%);
+  backdrop-filter: blur(10px);
+}
+
+.modal-window-shadow {
+  box-shadow: 0 25px 60px -15px rgba(2, 6, 23, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.card-hover-lift {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+/* Smooth custom scrollbars for executive DMS tables */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.6);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.8);
+}
