@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   X, 
   Archive, 
@@ -21,7 +22,8 @@ import {
   Palette,
   Globe,
   Sliders,
-  Check
+  Check,
+  Sparkles
 } from 'lucide-react';
 import { 
   StorageBoxItem, 
@@ -355,35 +357,56 @@ export const SystemManagementModal: React.FC<SystemManagementModalProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5">
-      <div className="relative w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 flex flex-col max-h-[92vh]">
-        
-        {/* Top Header Bar */}
-        <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white px-5 py-4 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600/30 border border-blue-400/30 flex items-center justify-center text-blue-300 shadow-inner">
-              <Sliders className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <span>ສູນຄຸ້ມຄອງ ແລະ ຕັ້ງຄ່າລະບົບ (System Administration Hub)</span>
-              </h2>
-              <p className="text-xs text-blue-200">
-                ຈັດການກ່ອງເອກະສານ, ປະເພດເອກະສານ, ພະແນກການ ແລະ ຮູບແບບການຈັດເກັບ ຫ້ອງວ່າການແຂວງຫົວພັນ
-              </p>
-            </div>
-          </div>
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 overflow-y-auto modal-glass-backdrop flex items-center justify-center p-3 sm:p-5">
+        {/* Backdrop click dismiss */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => {
+            soundEffects.playClickTick();
+            onClose();
+          }}
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-md cursor-pointer"
+        />
 
-          <button
-            onClick={() => {
-              soundEffects.playClickTick();
-              onClose();
-            }}
-            className="text-slate-300 hover:text-white p-2 rounded-xl hover:bg-white/10 transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: 16 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+          className="relative w-full max-w-5xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl modal-window-shadow overflow-hidden border border-white/20 flex flex-col max-h-[92vh] z-10"
+        >
+          {/* Top Header Bar */}
+          <div className="bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 text-white px-5 sm:px-6 py-4 flex items-center justify-between shrink-0 border-b border-amber-400/25">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-md shadow-amber-400/20">
+                <Sliders className="w-5 h-5 text-slate-950" />
+              </div>
+              <div>
+                <h2 className="text-sm sm:text-base font-black text-white flex items-center gap-2">
+                  <span>ສູນຄຸ້ມຄອງ ແລະ ຕັ້ງຄ່າລະບົບ</span>
+                  <span className="text-xs bg-blue-500/30 text-blue-200 px-2 py-0.5 rounded-md border border-blue-400/30 font-mono font-normal">
+                    Admin Hub
+                  </span>
+                </h2>
+                <p className="text-xs text-blue-200/90 font-medium">
+                  ຈັດການກ່ອງເອກະສານ, ປະເພດເອກະສານ, ພະແນກການ ແລະ ຮູບແບບການຈັດເກັບ • ຫ້ອງວ່າການແຂວງຫົວພັນ
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                soundEffects.playClickTick();
+                onClose();
+              }}
+              className="p-2 rounded-xl hover:bg-white/15 text-white/80 hover:text-white transition border border-transparent hover:border-white/20 cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
         {/* Global Feedback Banner */}
         {actionSuccessMsg && (
@@ -1424,8 +1447,8 @@ export const SystemManagementModal: React.FC<SystemManagementModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-100 border-t border-slate-200 px-5 py-3 flex items-center justify-between shrink-0">
-          <p className="text-[11px] text-slate-500">
+        <div className="bg-slate-50 border-t border-slate-200 px-5 sm:px-6 py-3 flex items-center justify-between shrink-0">
+          <p className="text-[11px] text-slate-500 font-medium">
             ລະບົບ e-Office DMS ຫ້ອງວ່າການແຂວງຫົວພັນ • ການຄຸ້ມຄອງຂໍ້ມູນມາດຕະຖານລັດຖະບານດິຈິຕອນ
           </p>
           <button
@@ -1433,13 +1456,14 @@ export const SystemManagementModal: React.FC<SystemManagementModalProps> = ({
               soundEffects.playClickTick();
               onClose();
             }}
-            className="px-4 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-xs font-bold transition"
+            className="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl text-xs font-bold transition cursor-pointer"
           >
             ປິດໜ້າຕ່າງ
           </button>
         </div>
 
-      </div>
+      </motion.div>
     </div>
+  </AnimatePresence>
   );
 };

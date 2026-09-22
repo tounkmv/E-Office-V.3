@@ -1,5 +1,6 @@
 import React from 'react';
-import { Printer, X, CheckCircle2, QrCode } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Printer, X, CheckCircle2, QrCode, Sparkles } from 'lucide-react';
 import { DocumentItem } from '../types';
 import { LaoEmblem } from './LaoEmblem';
 
@@ -16,33 +17,52 @@ export const TrackingSlipModal: React.FC<TrackingSlipModalProps> = ({ document, 
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 print:p-0 print:bg-white">
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 print:border-none print:shadow-none print:rounded-none">
-        {/* Modal Controls Header (Hidden during print) */}
-        <div className="bg-slate-900 text-white px-6 py-3.5 flex items-center justify-between print:hidden">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <h3 className="text-sm font-bold tracking-wide">
-              ໃບຕິດຄັດ ແລະ ຕິດຕາມເອກະສານທາງລັດຖະການ (Official Tracking Slip)
-            </h3>
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 overflow-y-auto modal-glass-backdrop flex items-center justify-center p-3 sm:p-4 print:p-0 print:bg-white">
+        {/* Backdrop click dismiss */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-md cursor-pointer print:hidden"
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: 16 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+          className="relative w-full max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl modal-window-shadow overflow-hidden border border-white/20 print:border-none print:shadow-none print:rounded-none z-10"
+        >
+          {/* Modal Controls Header (Hidden during print) */}
+          <div className="bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 text-white px-5 sm:px-6 py-4 flex items-center justify-between print:hidden border-b border-amber-400/25">
+            <div className="flex items-center gap-3">
+              <span className="w-3 h-3 rounded-full bg-amber-400 shadow-sm shadow-amber-400/50 animate-pulse"></span>
+              <div>
+                <h3 className="text-sm sm:text-base font-black text-white">
+                  ໃບຕິດຄັດ ແລະ ຕິດຕາມເອກະສານທາງລັດຖະການ
+                </h3>
+                <p className="text-xs text-blue-200/90 font-medium">Official Government Tracking Slip • ຫ້ອງວ່າການແຂວງຫົວພັນ</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button
+                id="btn-print-slip"
+                onClick={handlePrint}
+                className="px-4 py-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 text-xs font-bold rounded-xl shadow-md transition transform hover:scale-[1.02] flex items-center gap-1.5 cursor-pointer border border-amber-300"
+              >
+                <Printer className="w-4 h-4 text-slate-950" />
+                <span>ພິມໃບຕິດຄັດ (Print)</span>
+              </button>
+              <button
+                onClick={onClose}
+                className="p-2 rounded-xl hover:bg-white/15 text-white/80 hover:text-white transition border border-transparent hover:border-white/20 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <button
-              id="btn-print-slip"
-              onClick={handlePrint}
-              className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-1.5 transition"
-            >
-              <Printer className="w-4 h-4" />
-              <span>ພິມໃບຕິດຄັດ (Print)</span>
-            </button>
-            <button
-              onClick={onClose}
-              className="p-1 rounded-lg hover:bg-white/10 text-slate-300 hover:text-white transition"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
 
         {/* Printable Official Government Slip Document */}
         <div className="p-8 sm:p-10 font-sans text-slate-900 bg-white" id="printable-slip">
@@ -232,7 +252,8 @@ export const TrackingSlipModal: React.FC<TrackingSlipModalProps> = ({ document, 
             <span>ວັນທີພິມ: {new Date().toLocaleString('lo-LA')}</span>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
+  </AnimatePresence>
   );
 };

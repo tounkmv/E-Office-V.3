@@ -1,7 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { X, Check, RotateCcw, ShieldCheck, Award, PenTool } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X, Check, RotateCcw, ShieldCheck, Award, PenTool, Sparkles, Stamp } from 'lucide-react';
 import { DocumentItem, User } from '../types';
 import { generateDocumentHash } from '../lib/storageService';
+import { LaoEmblem } from './LaoEmblem';
 
 interface ESignaturePadModalProps {
   document: DocumentItem | null;
@@ -127,33 +129,49 @@ export const ESignaturePadModal: React.FC<ESignaturePadModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-        {/* Modal Header */}
-        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-400 text-blue-950 flex items-center justify-center font-bold shadow">
-              <Award className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-sm sm:text-base font-bold text-white">
-                ລົງລາຍເຊັນເອເລັກໂຕຣນິກ ແລະ ປະທັບກາອະນຸມັດ
-              </h3>
-              <p className="text-xs text-blue-200">
-                e-Signature Verification System - ຫ້ອງວ່າການແຂວງຫົວພັນ
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-white/80 hover:text-white transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 overflow-y-auto modal-glass-backdrop flex items-center justify-center p-3 sm:p-4">
+        {/* Backdrop click dismiss */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-md cursor-pointer"
+        />
 
-        {/* Modal Body */}
-        <div className="p-6 space-y-5">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: 16 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+          className="relative w-full max-w-2xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl modal-window-shadow overflow-hidden border border-white/20 z-10"
+        >
+          {/* Modal Header */}
+          <div className="bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 text-white px-5 sm:px-6 py-4 flex items-center justify-between border-b border-amber-400/25">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-md shadow-amber-400/20">
+                <Award className="w-5 h-5 text-slate-950" />
+              </div>
+              <div>
+                <h3 className="text-sm sm:text-base font-black text-white flex items-center gap-2">
+                  <span>ລົງລາຍເຊັນເອເລັກໂຕຣນິກ & ປະທັບກາອະນຸມັດ</span>
+                </h3>
+                <p className="text-xs text-blue-200/90 font-medium">
+                  e-Signature Verification System • ຫ້ອງວ່າການແຂວງຫົວພັນ
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl hover:bg-white/15 text-white/80 hover:text-white transition border border-transparent hover:border-white/20 cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Modal Body */}
+          <div className="p-5 sm:p-6 space-y-4 max-h-[75vh] overflow-y-auto">
           {/* Target Document Summary */}
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs">
             <div className="flex items-center justify-between pb-2 border-b border-slate-200">
@@ -257,11 +275,11 @@ export const ESignaturePadModal: React.FC<ESignaturePadModalProps> = ({
         </div>
 
         {/* Modal Footer Actions */}
-        <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex items-center justify-between">
+        <div className="bg-slate-50 px-5 sm:px-6 py-4 border-t border-slate-200 flex items-center justify-between">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200 rounded-lg transition"
+            className="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200 rounded-xl transition cursor-pointer"
           >
             ຍົກເລີກ
           </button>
@@ -270,13 +288,14 @@ export const ESignaturePadModal: React.FC<ESignaturePadModalProps> = ({
             id="btn-confirm-esign"
             onClick={handleConfirmSignature}
             disabled={isSubmitting}
-            className="px-5 py-2 text-xs font-bold text-white bg-blue-800 hover:bg-blue-700 rounded-lg shadow-sm transition flex items-center gap-1.5 disabled:opacity-50"
+            className="px-6 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-xl shadow-lg shadow-amber-950/20 transition transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 disabled:opacity-50 cursor-pointer border border-amber-300"
           >
-            <Check className="w-4 h-4" />
+            <Check className="w-4 h-4 text-slate-950" />
             <span>{isSubmitting ? 'ກຳລັງຢືນຢັນ...' : 'ຢືນຢັນການລົງລາຍເຊັນ ແລະ ອະນຸມັດ'}</span>
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
+  </AnimatePresence>
   );
 };

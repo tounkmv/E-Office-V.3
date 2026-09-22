@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, UploadCloud, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X, UploadCloud, FileText, CheckCircle2, AlertCircle, FilePlus, Sparkles } from 'lucide-react';
 import { 
   DocumentItem, 
   DocumentType, 
@@ -10,6 +11,7 @@ import {
 } from '../types';
 import { DEPARTMENTS, STORAGE_BOXES, DOCUMENT_CATEGORIES } from '../lib/initialData';
 import { validateFileUpload } from '../lib/storageService';
+import { LaoEmblem } from './LaoEmblem';
 
 interface DocFormModalProps {
   type: DocumentType;
@@ -136,31 +138,52 @@ export const DocFormModal: React.FC<DocFormModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-        {/* Modal Header */}
-        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white px-6 py-4 flex items-center justify-between">
-          <div>
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <span>{type === 'incoming' ? 'ລົງທະບຽນເອກະສານຂາເຂົ້າ' : 'ອອກເລກທີເອກະສານຂາອອກ'}</span>
-              <span className="text-xs bg-amber-400 text-blue-950 font-bold px-2 py-0.5 rounded">
-                ຫ້ອງວ່າການແຂວງຫົວພັນ
-              </span>
-            </h3>
-            <p className="text-xs text-blue-200 mt-0.5">
-              ກະລຸນາຕື່ມຂໍ້ມູນໃຫ້ຖືກຕ້ອງຕາມມາດຕະຖານການບັນທຶກເອກະສານທາງລັດຖະການ
-            </p>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-white/80 hover:text-white transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 overflow-y-auto modal-glass-backdrop flex items-center justify-center p-3 sm:p-4">
+        {/* Backdrop click dismiss */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-md cursor-pointer"
+        />
 
-        {/* Modal Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94, y: 18 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: 18 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+          className="relative w-full max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl modal-window-shadow overflow-hidden border border-white/20 z-10"
+        >
+          {/* Modal Header */}
+          <div className="bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 text-white px-5 sm:px-6 py-4 flex items-center justify-between border-b border-amber-400/25">
+            <div className="flex items-center gap-3">
+              <LaoEmblem size={40} variant="medallion" />
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black px-2.5 py-0.5 rounded-full shadow-xs">
+                    {type === 'incoming' ? 'ລົງທະບຽນເອກະສານຂາເຂົ້າ' : 'ອອກເລກທີເອກະສານຂາອອກ'}
+                  </span>
+                  <span className="text-xs text-amber-300 font-bold">
+                    ຫ້ອງວ່າການແຂວງຫົວພັນ
+                  </span>
+                </div>
+                <p className="text-xs text-blue-200/90 mt-1 font-medium">
+                  ກະລຸນາຕື່ມຂໍ້ມູນໃຫ້ຖືກຕ້ອງຕາມມາດຕະຖານການບັນທຶກເອກະສານທາງລັດຖະການ
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl hover:bg-white/15 text-white/80 hover:text-white transition border border-transparent hover:border-white/20 cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Modal Form */}
+          <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 max-h-[80vh] overflow-y-auto">
           {/* Row 1: Doc Number, Category, Priority */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
@@ -382,21 +405,22 @@ export const DocFormModal: React.FC<DocFormModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition"
+              className="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-xl transition cursor-pointer"
             >
               ຍົກເລີກ
             </button>
             <button
               type="submit"
               id="btn-save-doc"
-              className="px-6 py-2 text-xs font-bold text-white bg-blue-800 hover:bg-blue-700 rounded-lg shadow-sm transition flex items-center gap-1.5"
+              className="px-6 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-xl shadow-lg shadow-amber-950/20 transition transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 cursor-pointer border border-amber-300"
             >
-              <CheckCircle2 className="w-4 h-4" />
+              <CheckCircle2 className="w-4 h-4 text-slate-950" />
               <span>ບັນທຶກ ແລະ ອອກໃບຕິດຕາມ</span>
             </button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
+  </AnimatePresence>
   );
 };

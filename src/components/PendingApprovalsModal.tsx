@@ -1,5 +1,6 @@
 import React from 'react';
-import { X, Check, Trash2, UserCheck, ShieldAlert, Clock } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X, Check, Trash2, UserCheck, ShieldAlert, Clock, Sparkles } from 'lucide-react';
 import { RegistrationRequest } from '../types';
 
 interface PendingApprovalsModalProps {
@@ -18,30 +19,49 @@ export const PendingApprovalsModal: React.FC<PendingApprovalsModalProps> = ({
   const pendingOnly = requests.filter(r => r.status === 'pending');
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-amber-400 text-blue-950 flex items-center justify-center font-bold">
-              <UserCheck className="w-4 h-4" />
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 overflow-y-auto modal-glass-backdrop flex items-center justify-center p-3 sm:p-4">
+        {/* Backdrop click dismiss */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-md cursor-pointer"
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: 16 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+          className="relative w-full max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl modal-window-shadow overflow-hidden border border-white/20 z-10"
+        >
+          {/* Header */}
+          <div className="bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 text-white px-5 sm:px-6 py-4 flex items-center justify-between border-b border-amber-400/25">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-md shadow-amber-400/20">
+                <UserCheck className="w-5 h-5 text-slate-950" />
+              </div>
+              <div>
+                <h3 className="text-sm sm:text-base font-black text-white flex items-center gap-2">
+                  <span>ຄຳຮ້ອງຂໍເປີດບັນຊີໃໝ່ ທີ່ລໍຖ້າການອະນຸມັດ</span>
+                  <span className="text-xs bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full font-bold shadow-xs">
+                    {pendingOnly.length}
+                  </span>
+                </h3>
+                <p className="text-xs text-blue-200/90 font-medium">
+                  ກວດກາ ແລະ ຢືນຢັນສິດທິການເຂົ້າເຖິງລະບົບ e-Office ຫ້ອງວ່າການແຂວງຫົວພັນ
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-base font-bold text-white">
-                ຄຳຮ້ອງຂໍເປີດບັນຊີໃໝ່ ທີ່ລໍຖ້າການອະນຸມັດ ({pendingOnly.length})
-              </h3>
-              <p className="text-xs text-blue-200">
-                ກວດກາ ແລະ ຢືນຢັນສິດທິການເຂົ້າເຖິງລະບົບ e-Office ຫ້ອງວ່າການແຂວງຫົວພັນ
-              </p>
-            </div>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl hover:bg-white/15 text-white/80 hover:text-white transition border border-transparent hover:border-white/20 cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-white/80 hover:text-white transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
 
         {/* Content */}
         <div className="p-6 max-h-[70vh] overflow-y-auto">
@@ -111,15 +131,16 @@ export const PendingApprovalsModal: React.FC<PendingApprovalsModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-50 px-6 py-3 border-t border-slate-200 text-right">
+        <div className="bg-slate-50 px-5 sm:px-6 py-3.5 border-t border-slate-200 text-right">
           <button
             onClick={onClose}
-            className="px-4 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-200 rounded-lg transition"
+            className="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200 rounded-xl transition cursor-pointer"
           >
             ປິດໜ້າຕ່າງ
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
+  </AnimatePresence>
   );
 };

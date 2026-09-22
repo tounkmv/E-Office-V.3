@@ -1225,78 +1225,105 @@ export default function App() {
             <div className="space-y-5">
               {/* 4 Statistical Overview Cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                <div 
+                <motion.div 
+                  whileHover={{ y: -3, transition: { duration: 0.2 } }}
                   onClick={() => setActiveTab('incoming')}
-                  className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs hover:border-blue-300 transition cursor-pointer"
+                  className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50/30 to-blue-100/20 p-4 rounded-2xl border border-blue-200/80 shadow-xs hover:shadow-lg hover:shadow-blue-500/10 hover:border-blue-400 transition cursor-pointer group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-500">{t.totalIncoming}</span>
-                    <div className="w-7 h-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                    <span className="text-xs font-bold text-slate-600">{t.totalIncoming}</span>
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20 group-hover:scale-110 transition-transform">
                       <FileDown className="w-4 h-4" />
                     </div>
                   </div>
-                  <p className="text-2xl font-extrabold text-blue-950 mt-2">{incomingDocs.length}</p>
-                  <p className="text-[10px] text-blue-700 font-semibold mt-1">ເອກະສານຂາເຂົ້າທັງໝົດ</p>
-                </div>
+                  <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2 font-mono">{incomingDocs.length}</p>
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                    <p className="text-[11px] text-blue-700 font-bold">ເອກະສານຂາເຂົ້າທັງໝົດ</p>
+                  </div>
+                </motion.div>
 
-                <div 
+                <motion.div 
+                  whileHover={{ y: -3, transition: { duration: 0.2 } }}
                   onClick={() => setActiveTab('outgoing')}
-                  className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs hover:border-emerald-300 transition cursor-pointer"
+                  className="relative overflow-hidden bg-gradient-to-br from-white via-emerald-50/30 to-emerald-100/20 p-4 rounded-2xl border border-emerald-200/80 shadow-xs hover:shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-400 transition cursor-pointer group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-500">{t.totalOutgoing}</span>
-                    <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                    <span className="text-xs font-bold text-slate-600">{t.totalOutgoing}</span>
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 group-hover:scale-110 transition-transform">
                       <FileUp className="w-4 h-4" />
                     </div>
                   </div>
-                  <p className="text-2xl font-extrabold text-emerald-800 mt-2">{outgoingDocs.length}</p>
-                  <p className="text-[10px] text-emerald-700 font-semibold mt-1">ເອກະສານຂາອອກທັງໝົດ</p>
-                </div>
+                  <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2 font-mono">{outgoingDocs.length}</p>
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <p className="text-[11px] text-emerald-700 font-bold">ເອກະສານຂາອອກທັງໝົດ</p>
+                  </div>
+                </motion.div>
 
-                <div 
-                  className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs hover:border-amber-300 transition"
+                <motion.div 
+                  whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                  onClick={() => setActiveTab('incoming')}
+                  className="relative overflow-hidden bg-gradient-to-br from-white via-amber-50/30 to-amber-100/20 p-4 rounded-2xl border border-amber-200/80 shadow-xs hover:shadow-lg hover:shadow-amber-500/10 hover:border-amber-400 transition cursor-pointer group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-500">{t.pendingProcessing}</span>
-                    <div className="w-7 h-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+                    <span className="text-xs font-bold text-slate-600">{t.pendingProcessing}</span>
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-600 text-white flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-110 transition-transform">
                       <Clock className="w-4 h-4" />
                     </div>
                   </div>
-                  <p className="text-2xl font-extrabold text-amber-800 mt-2">{pendingProcessingDocs.length}</p>
-                  <p className="text-[10px] text-amber-700 font-semibold mt-1">ກຳລັງດຳເນີນການ</p>
-                </div>
+                  <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2 font-mono">{pendingProcessingDocs.length}</p>
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                    <p className="text-[11px] text-amber-700 font-bold">ກຳລັງດຳເນີນການ</p>
+                  </div>
+                </motion.div>
 
-                <div 
-                  className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs hover:border-red-300 transition"
+                <motion.div 
+                  whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                  onClick={() => {
+                    setSelectedPriority('ດ່ວນທີ່ສຸດ');
+                    setActiveTab('incoming');
+                  }}
+                  className="relative overflow-hidden bg-gradient-to-br from-white via-rose-50/30 to-rose-100/20 p-4 rounded-2xl border border-rose-200/80 shadow-xs hover:shadow-lg hover:shadow-rose-500/10 hover:border-rose-400 transition cursor-pointer group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-500">{t.urgentAlerts}</span>
-                    <div className="w-7 h-7 rounded-lg bg-red-50 text-red-700 flex items-center justify-center">
+                    <span className="text-xs font-bold text-slate-600">{t.urgentAlerts}</span>
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-600 to-red-600 text-white flex items-center justify-center shadow-md shadow-rose-600/20 group-hover:scale-110 transition-transform relative">
                       <AlertCircle className="w-4 h-4" />
+                      {urgentDocsCount > 0 && (
+                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-400 rounded-full animate-ping" />
+                      )}
                     </div>
                   </div>
-                  <p className="text-2xl font-extrabold text-red-700 mt-2">{urgentDocsCount}</p>
-                  <p className="text-[10px] text-red-600 font-semibold mt-1">ດ່ວນທີ່ສຸດ / ໃກ້ຮອດກຳນົດ</p>
-                </div>
+                  <p className="text-2xl sm:text-3xl font-black text-rose-700 mt-2 font-mono">{urgentDocsCount}</p>
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                    <p className="text-[11px] text-rose-700 font-bold">ດ່ວນທີ່ສຸດ / ໃກ້ຮອດກຳນົດ</p>
+                  </div>
+                </motion.div>
               </div>
 
               {/* Department breakdown widget */}
-              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                    {t.deptBreakdown}
-                  </h3>
-                  <span className="text-[11px] text-slate-500">
+              <div className="bg-white p-5 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-xs">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                    <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider">
+                      {t.deptBreakdown}
+                    </h3>
+                  </div>
+                  <span className="text-xs text-slate-500 font-medium bg-slate-100 px-2.5 py-1 rounded-full">
                     ຫ້ອງວ່າການແຂວງຫົວພັນ
                   </span>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
                   {DEPARTMENTS.slice(0, 4).map((dept) => {
                     const count = documents.filter(d => d.currentHolder.includes(dept) || d.assignees.some(a => a.includes(dept))).length;
                     return (
-                      <div key={dept} className="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
-                        <p className="font-semibold text-slate-800 truncate">{dept}</p>
-                        <p className="text-base font-bold text-blue-900 mt-1">{count} ສະບັບ</p>
+                      <div key={dept} className="p-3 bg-gradient-to-br from-slate-50 to-blue-50/30 hover:from-blue-50/50 hover:to-indigo-50/50 rounded-xl sm:rounded-2xl border border-slate-200/70 transition hover:border-blue-300">
+                        <p className="font-bold text-slate-800 truncate">{dept}</p>
+                        <p className="text-lg font-black text-blue-950 mt-1 font-mono">{count} <span className="text-xs font-bold text-slate-500">ສະບັບ</span></p>
                       </div>
                     );
                   })}
@@ -1494,7 +1521,7 @@ export default function App() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setDocFormType(activeTab === 'outgoing' ? 'outgoing' : 'incoming')}
-                    className="px-3.5 py-1.5 bg-blue-800 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-xs transition flex items-center gap-1.5"
+                    className="px-4 py-2 bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white text-xs font-bold rounded-xl shadow-md shadow-blue-900/20 transition transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 cursor-pointer"
                   >
                     <Plus className="w-4 h-4" />
                     <span>
